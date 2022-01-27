@@ -1,4 +1,5 @@
 import { Auth0Provider } from '@bcwdev/auth0provider'
+import { carCommentsService } from '../services/CarCommentsService'
 import { carsService } from '../services/CarsService'
 import BaseController from '../utils/BaseController'
 
@@ -8,6 +9,7 @@ export class CarsController extends BaseController {
     this.router
       .get('', this.getAll)
       .get('/:id', this.getById)
+      .get('/:id/comments', this.getComments)
       .use(Auth0Provider.getAuthorizedUserInfo)
       // NOTE everything below this .use will be 'locked' down and we can access the auth user info
       .post('', this.create)
@@ -29,6 +31,15 @@ export class CarsController extends BaseController {
     try {
       const car = await carsService.getById(req.params.id)
       res.send(car)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getComments(req, res, next) {
+    try {
+      const comments = await carCommentsService.getAll({ carId: req.params.id })
+      res.send(comments)
     } catch (error) {
       next(error)
     }
