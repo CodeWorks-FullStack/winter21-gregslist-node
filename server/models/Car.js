@@ -7,7 +7,7 @@ export const CarSchema = new Schema(
     make: { type: String, required: true },
     model: { type: String, required: true },
     price: { type: Number, required: true },
-    color: { type: String, required: true },
+    color: { type: String },
     description: { type: String, required: true },
     // NOTE when wanting to supply default value, that field MUST be required
     imgUrl: { type: String, required: true, default: 'https://placehold.it/300x300' },
